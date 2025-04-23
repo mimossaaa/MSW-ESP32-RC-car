@@ -2,7 +2,7 @@
 #include <WebServer.h>
 
 // Motor control pins
-#define IN1 26  // Right motor forward
+#define IN1 26  // Right motor for ward
 #define IN2 27  // Right motor backward
 #define IN3 14  // Left motor forward
 #define IN4 12  // Left motor backward
