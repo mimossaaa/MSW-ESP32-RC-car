@@ -1,4 +1,4 @@
-This repository contains my work from the Mission Science Workshop summer class. Over the course of the program, I explored hands-on engineering and robotics concepts, focusing on designing and programming a remote-controlled car using the ESP32 microcontroller.
+This repo contains all of my R&D for the Mission Science Workshop dedicated to the robotics summer class.
 
 ## 🔧 Project Overview
 
