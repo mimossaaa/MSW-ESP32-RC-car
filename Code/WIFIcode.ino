@@ -32,15 +32,15 @@ const char* password  = "12345678";      // WiFi Password
 #define LEFT_MOTOR 1
 
 // Define motor directions (for setMotorDirection function)
-#define MOTOR_FORWARD 1  // Renamed to avoid conflict if FORWARD was globally something else
+#define MOTOR_FORWARD 1
 #define MOTOR_BACKWARD -1
-#define MOTOR_STOP 0     // Explicit stop for motor direction
+#define MOTOR_STOP 0
 
 // Create AsyncWebServer on port 80 and WebSocket endpoint
 AsyncWebServer server(80);
 AsyncWebSocket wsCarInput("/CarInput");
 
-// HTML page served to clients - (No changes here from previous version you liked)
+// HTML page served to clients
 const char* htmlHomePage PROGMEM = R"HTML(
 <!DOCTYPE html>
 <html>
@@ -258,7 +258,7 @@ void handleRoot(AsyncWebServerRequest *request) {
   request->send_P(200, "text/html", htmlHomePage);
 }
 
-// WebSocket event handler --- MODIFIED SECTION ---
+// WebSocket event handler
 void onCarInputWebSocketEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
                               AwsEventType type, void *arg, uint8_t *data, size_t len) {
   if (type == WS_EVT_CONNECT) {
@@ -269,18 +269,15 @@ void onCarInputWebSocketEvent(AsyncWebSocket *server, AsyncWebSocketClient *clie
   } else if (type == WS_EVT_DATA) {
     AwsFrameInfo *info = (AwsFrameInfo*)arg;
     if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
-      // Create a std::string from the received data with explicit length
       std::string payload(reinterpret_cast<char*>(data), len);
-      // Serial.printf("WS Data from client #%u: %s\n", client->id(), payload.c_str()); // For debugging
 
-      // Manually parse the "key,value" string
       size_t comma_pos = payload.find(',');
       if (comma_pos != std::string::npos && comma_pos > 0 && comma_pos < payload.length() - 1) {
         std::string key = payload.substr(0, comma_pos);
         std::string value_str = payload.substr(comma_pos + 1);
 
         if (key == "MoveCar") {
-          int val = atoi(value_str.c_tostr()); 
+          int val = atoi(value_str.c_str()); // <<< CORRECTED HERE
           moveCar(val);
         } else if (key == "Speed") {
           Serial.printf("Received Speed command with value %s, ignored.\n", value_str.c_str());
@@ -295,7 +292,6 @@ void onCarInputWebSocketEvent(AsyncWebSocket *server, AsyncWebSocketClient *clie
     Serial.printf("WebSocket client #%u error #%u: %s\n", client->id(), *((uint16_t*)arg), (char*)data);
   }
 }
-// --- END OF MODIFIED SECTION ---
 
 // Setup function
 void setup() {
