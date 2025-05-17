@@ -9,6 +9,7 @@
 #define IN4 12  // Left motor backward
 
 // WiFi AP credentials
+// connect to 192.168.4.1
 const char* ssid = "MSW_minibot";
 const char* password = "12345678";
 
