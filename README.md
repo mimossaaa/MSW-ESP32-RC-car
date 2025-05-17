@@ -21,6 +21,8 @@ The RC car uses:
 - An ESP32 microcontroller
 - L298N Motor Controller
 - TT motors and custom motor mounts
+- connect to 192.168.4.1
+
 - 3D-printed components designed from scratch
 - Remote control via WIFI
 
